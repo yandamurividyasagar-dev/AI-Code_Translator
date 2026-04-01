@@ -1,288 +1,183 @@
-# 🤖 Smart Code Translator
+# Smart Code Translator
 
-An AI-powered full-stack web application that helps developers work across programming languages. Translate code, analyze complexity, optimize performance, and get beginner-friendly explanations — all powered by **Google Gemini AI**.
+I built this because I kept switching between browser tabs — Googling Java syntax while thinking in Python, copying snippets into ChatGPT just to understand what a colleague's C++ function did. It was annoying. So I built the tool I actually wanted.
 
----
-
-## ✨ Features
-
-| Feature | Description |
-|---|---|
-| **Code Translation** | Convert code between C, C++, C#, Java, and Python |
-| **Complexity Analysis** | Analyze time and space complexity with Big-O notation |
-| **Code Optimization** | Get AI-powered suggestions to improve code performance |
-| **Code Explanation** | Understand code in beginner-friendly plain English |
-| **Email/Password Auth** | Register and login with traditional credentials |
-| **Google SSO** | One-click sign-in with Google OAuth |
-| **Operation History** | Automatically save and browse past operations |
-| **Monaco Code Editor** | Professional VS Code-like editor with syntax highlighting |
+It's a full-stack web app that lets you paste code, pick a target language, and get back a clean translation — along with complexity analysis, optimization suggestions, and plain-English explanations. Everything runs through Google Gemini under the hood, with a proper auth system so your history is saved across sessions.
 
 ---
 
-## 🛠️ Tech Stack
+## What it does
 
-**Frontend**
-- React + Vite
-- React Router DOM
-- Axios (with JWT interceptor)
-- Monaco Editor (`@monaco-editor/react`)
-- Google OAuth (`@react-oauth/google`)
-- React Hot Toast
+**Translate** — Converts code between C, C++, C#, Java, and Python. Not just a syntax swap — it tries to use idiomatic patterns of the target language, including the right imports and standard library calls.
 
-**Backend**
-- Node.js + Express
-- MongoDB + Mongoose
-- JWT (jsonwebtoken)
-- bcryptjs
-- Google Auth Library
-- Google Gemini AI (`@google/genai`)
+**Analyze** — Returns time and space complexity in Big-O notation with a short explanation of why. Useful for understanding code you didn't write or double-checking your own assumptions.
+
+**Optimize** — Suggests a rewritten version of your code with bullet-point notes on what changed and why. Great for catching inefficiencies you didn't notice.
+
+**Explain** — Produces a beginner-friendly walkthrough of what the code does. Handy when you're reading unfamiliar codebases or onboarding someone new.
+
+All four operations save to your history automatically, so you can revisit past translations without redoing the work.
 
 ---
 
-## 📁 Project Structure
+## Tech choices and why
 
-```
-smart-code-translater/
-├── client/                         # Frontend (React + Vite)
-│   └── src/
-│       ├── components/             # Reusable UI components
-│       ├── context/                # Global state (AuthContext)
-│       ├── pages/                  # Full page views
-│       ├── services/               # API call functions
-│       ├── constants/              # Static data (languages, prompts)
-│       └── styles/                 # CSS files
-└── server/                         # Backend (Express + MongoDB)
-    └── src/
-        ├── config/                 # DB, Gemini, Google OAuth config
-        ├── constants/              # Prompt templates, language list
-        ├── controllers/            # HTTP request handlers
-        ├── middleware/             # Auth & error middleware
-        ├── models/                 # Mongoose schemas
-        ├── routes/                 # API route definitions
-        ├── services/               # Business logic
-        └── utils/                  # JWT & prompt utilities
-```
+I used the **MERN stack** (MongoDB, Express, React, Node.js) because it's practical — one language across the whole codebase, fast iteration, and no impedance mismatch between the API and the frontend data shapes.
+
+For the editor, I used **Monaco** (the engine behind VS Code) instead of a textarea or a simpler library. It gives you real syntax highlighting, bracket matching, and code folding — the kind of experience developers actually expect.
+
+**JWT authentication** with bcrypt-hashed passwords handles the email/password flow. For Google sign-in, I used `google-auth-library` on the backend to verify the ID token server-side rather than trusting the client — important for security.
+
+**Google Gemini 2.5 Flash** powers all four AI features. I wrote structured prompts for each operation: translation returns raw code, while analysis, optimization, and explanation return JSON with specific fields. This makes the frontend rendering predictable regardless of what Gemini says.
 
 ---
 
-## ⚙️ Prerequisites
+## Running it locally
 
-- [Node.js](https://nodejs.org/)
-- [MongoDB](https://www.mongodb.com/) (Atlas or local)
-- [Google Cloud Console](https://console.cloud.google.com/) account (for OAuth Client ID)
-- [Google AI Studio](https://aistudio.google.com/) account (for Gemini API Key)
+You'll need Node.js, a MongoDB connection string (Atlas free tier works fine), a Google OAuth Client ID, and a Gemini API key.
 
----
-
-## 🚀 Getting Started
-
-### 1. Clone the repository
+**Clone and install**
 
 ```bash
-git clone https://github.com/your-username/smart-code-translater.git
-cd smart-code-translater
+git clone https://github.com/your-username/smart-code-translator.git
+cd smart-code-translator
 ```
 
-### 2. Setup the Backend
+**Backend setup**
 
 ```bash
 cd server
 npm install
 ```
 
-Create a `.env` file in the `server/` directory:
+Create `server/.env`:
 
-```env
+```
 PORT=5000
 CLIENT_URL=http://localhost:5173
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_super_secret_jwt_key
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
 JWT_EXPIRES_IN=7d
 GOOGLE_CLIENT_ID=your_google_client_id
 GEMINI_API_KEY=your_gemini_api_key
 ```
 
-Start the server:
-
 ```bash
 npm run dev
 ```
 
-### 3. Setup the Frontend
+**Frontend setup**
 
 ```bash
 cd client
 npm install
 ```
 
-Create a `.env` file in the `client/` directory:
+Create `client/.env`:
 
-```env
+```
 VITE_API_URL=http://localhost:5000/api
 VITE_GOOGLE_CLIENT_ID=your_google_client_id
 ```
-
-Start the client:
 
 ```bash
 npm run dev
 ```
 
-The app will be running at `http://localhost:5173`.
+App runs at `http://localhost:5173`.
 
 ---
 
-## 🔑 Environment Variables
-
-### Server (`server/.env`)
-
-| Variable | Description |
-|---|---|
-| `PORT` | Port the server listens on |
-| `CLIENT_URL` | Frontend URL (used for CORS) |
-| `MONGODB_URI` | MongoDB Atlas connection string |
-| `JWT_SECRET` | Secret key for signing JWT tokens |
-| `JWT_EXPIRES_IN` | JWT token validity duration (e.g., `7d`) |
-| `GOOGLE_CLIENT_ID` | Google OAuth 2.0 Client ID |
-| `GEMINI_API_KEY` | Google Gemini AI API key |
-
-### Client (`client/.env`)
-
-| Variable | Description |
-|---|---|
-| `VITE_API_URL` | Backend API base URL |
-| `VITE_GOOGLE_CLIENT_ID` | Google OAuth 2.0 Client ID |
-
----
-
-## 📡 API Endpoints
-
-### Auth Routes — `/api/auth`
-
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| POST | `/register` | Register a new user | No |
-| POST | `/login` | Login with email & password | No |
-| POST | `/google` | Login with Google OAuth | No |
-| GET | `/me` | Get current user profile | Yes |
-| POST | `/logout` | Logout | Yes |
-
-### Code Routes — `/api/code`
-
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| POST | `/translate` | Translate code between languages | Yes |
-| POST | `/analyze` | Analyze time & space complexity | Yes |
-| POST | `/optimize` | Optimize code with suggestions | Yes |
-| POST | `/explain` | Explain code in plain English | Yes |
-
-### History Routes — `/api/history`
-
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| GET | `/` | Get paginated operation history | Yes |
-| GET | `/:id` | Get a single history entry | Yes |
-| DELETE | `/:id` | Delete a history entry | Yes |
-| DELETE | `/clear` | Clear all history | Yes |
-
----
-
-## 🏗️ Architecture Overview
+## Project structure
 
 ```
-Client (React + Vite)
-├── LoginPage ──── authService ──── API (Axios + JWT interceptor)
-├── HomePage ───── codeService ─┐
-│   ├── CodeEditor (Monaco)     │
-│   ├── LanguageSelector        ├── POST /api/code/{action}
-│   └── OutputPanel             │
-└── HistoryPage ── historyService ── GET/DELETE /api/history
-
-Server (Express + MongoDB)
-├── Auth:  Routes → Controller → Service → User Model
-├── Code:  Routes → Controller → Service → Gemini AI
-└── Hist:  Routes → Controller → Service → History Model
-```
-
-### Request Flow (Code Operations)
-
-```
-Frontend (React)
-    ↓ POST /api/code/translate (with JWT token)
-Auth Middleware (verify token → attach user to request)
-    ↓
-Code Controller (validate input)
-    ↓
-Service Layer (build prompt → call Gemini AI → clean response)
-    ↓
-History Service (save result — fire and forget)
-    ↓
-Response → { success: true, data: result }
+smart-code-translator/
+├── client/
+│   └── src/
+│       ├── components/       # CodeEditor, OutputPanel, LanguageSelector, Navbar
+│       ├── context/          # AuthContext — global auth state via React Context
+│       ├── pages/            # LoginPage, HomePage, HistoryPage
+│       ├── services/         # Axios calls to backend (auth, code, history)
+│       └── constants/        # Language list, Monaco mappings, starter code
+└── server/
+    └── src/
+        ├── config/           # MongoDB, Gemini, Google OAuth setup
+        ├── constants/        # Prompt templates, supported languages
+        ├── controllers/      # Request handlers (auth, code, history)
+        ├── middleware/        # JWT auth check, global error handler
+        ├── models/           # User schema, History schema
+        ├── routes/           # Route definitions, central registry
+        ├── services/         # Business logic (translate, analyze, optimize, explain)
+        └── utils/            # JWT helpers, Gemini response parsers
 ```
 
 ---
 
-## 🔐 Authentication Flow
+## API reference
 
-The app supports two sign-in methods:
+All code and history endpoints require a valid JWT in the `Authorization: Bearer <token>` header.
 
-**Email/Password**
-1. User registers with name, email, and password
-2. Password is hashed with bcrypt before storing
-3. On login, bcrypt compares the plain-text password with the stored hash
-4. A JWT token is issued and stored in localStorage
-5. The Axios interceptor automatically attaches the token to every request
+### Auth — `/api/auth`
 
-**Google SSO**
-1. User clicks "Continue with Google"
-2. Google returns a credential (ID token) to the frontend
-3. Frontend sends the credential to the backend
-4. Backend verifies the token using `google-auth-library`
-5. User is created or updated in the database, and a JWT is returned
-
----
-
-## 🤖 AI Operations
-
-All four AI operations follow the same pattern:
-
-```
-getLanguageName(id)
-  → PROMPT_TEMPLATE(code, lang)
-    → askGemini(prompt)
-      → parse/clean response
-        → return structured result
-```
-
-| Operation | Prompt Output | Response Parsing |
+| Method | Route | Description |
 |---|---|---|
-| Translate | Plain code | `cleanCodeResponse()` |
-| Analyze | JSON `{ timeComplexity, spaceComplexity, explanation }` | `parseGeminiJSON()` |
-| Optimize | JSON `{ optimizedCode, suggestions }` | `parseGeminiJSON()` |
-| Explain | JSON `{ explanation }` | `parseGeminiJSON()` |
+| POST | `/register` | Create account with name, email, password |
+| POST | `/login` | Email/password login |
+| POST | `/google` | Google OAuth login |
+| GET | `/me` | Fetch current user profile |
+| POST | `/logout` | Logout |
 
----
+### Code — `/api/code`
 
-## 📜 Supported Languages
-
-| Language | ID | Extension |
+| Method | Route | Body |
 |---|---|---|
-| C | `c` | `.c` |
-| C++ | `cpp` | `.cpp` |
-| C# | `csharp` | `.cs` |
-| Java | `java` | `.java` |
-| Python | `python` | `.py` |
+| POST | `/translate` | `{ code, sourceLanguage, targetLanguage }` |
+| POST | `/analyze` | `{ code, language }` |
+| POST | `/optimize` | `{ code, language }` |
+| POST | `/explain` | `{ code, language }` |
+
+### History — `/api/history`
+
+| Method | Route | Description |
+|---|---|---|
+| GET | `/?page=1&limit=10` | Paginated history |
+| GET | `/:id` | Single entry |
+| DELETE | `/:id` | Delete entry |
+| DELETE | `/clear` | Clear all history |
 
 ---
 
-## 📄 License
+## How the AI part works
 
-This project is open source and available under the [MIT License](LICENSE).
+Each operation follows the same pattern:
+
+1. Convert the language ID to a display name (`cpp` → `C++`)
+2. Fill a prompt template with the code and language
+3. Send to Gemini via `generateContent()`
+4. Strip any markdown fencing Gemini wraps around the response
+5. Return plain code (for translation) or parse JSON (for everything else)
+
+The prompts are strict about output format. For example, the analysis prompt says: *"Respond with ONLY a JSON object in this exact format — no explanation, no markdown."* This keeps the frontend rendering consistent and avoids having to parse natural language.
+
+History saves happen asynchronously after the response is sent — fire-and-forget — so the user doesn't wait for the database write.
 
 ---
 
-## 🙌 Acknowledgements
+## Supported languages
 
-- [Google Gemini AI](https://deepmind.google/technologies/gemini/) — AI backbone for all code operations
-- [Monaco Editor](https://microsoft.github.io/monaco-editor/) — The editor that powers VS Code
-- [Google OAuth](https://developers.google.com/identity) — Secure one-click sign-in
+C, C++, C#, Java, Python
+
+---
+
+## What I'd add next
+
+- Support for more languages (JavaScript, Go, Rust)
+- Side-by-side diff view for the optimize output
+- Shareable links for individual translations
+- Rate limiting per user on the AI endpoints
+
+---
+
+## License
+
+MIT
