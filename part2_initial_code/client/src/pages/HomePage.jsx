@@ -196,7 +196,7 @@ function HomePage() {
 
             {result && (
               <button className="copy-btn" onClick={handleCopy}>
-                {copied ? "✓ Copied" : "📋 Copy"}
+                {copied ? "✓ Copied" : "Copy"}
               </button>
             )}
           </div>
