@@ -6,7 +6,7 @@
 
 ## Demo Video
 
-[![Watch Demo](https://img.shields.io/badge/▶%20Watch%20Demo-red?style=for-the-badge&logo=youtube&logoColor=white)](YOUR_VIDEO_LINK_HERE)
+[![Watch Demo](https://img.shields.io/badge/▶%20Watch%20Demo-red?style=for-the-badge&logo=youtube&logoColor=white)](https://github.com/user-attachments/assets/40d56f0c-0d9d-4fc2-872f-04ca2e411a33)
 
 ---
 
