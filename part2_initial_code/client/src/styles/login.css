@@ -260,3 +260,32 @@
   flex-direction: column;
   gap: 12px; /* 👈 controls spacing */
 }
+
+/* Password eye toggle */
+.login-password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.login-password-wrapper .login-input {
+  width: 100%;
+  padding-right: 42px;
+}
+
+.login-eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.login-eye-btn:hover {
+  color: #374151;
+}
