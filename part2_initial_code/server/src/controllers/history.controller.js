@@ -24,7 +24,8 @@ export const getHistoryItem = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const item = await historyService.getHistoryById(id, req.user._id);
+    // ✅ FIXED: was getHistoryById (doesn't exist)
+    const item = await historyService.getHistoryEntry(id, req.user._id);
 
     return res.status(200).json({
       success: true,
@@ -39,7 +40,8 @@ export const deleteHistoryItem = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    await historyService.deleteHistoryById(id, req.user._id);
+    // ✅ FIXED: was deleteHistoryById (doesn't exist)
+    await historyService.deleteHistoryEntry(id, req.user._id);
 
     return res.status(200).json({
       success: true,
