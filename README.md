@@ -4,6 +4,14 @@
 
 ---
 
+## 🚀 Live Demo
+
+**[➜ Try it live → ai-code-translator-bq9w.onrender.com](https://ai-code-translator-bq9w.onrender.com)**
+
+> No installation needed. Open the link, sign in with Google, and start translating code instantly.
+
+---
+
 ## Demo Video
 
 [![Watch Demo](https://img.shields.io/badge/▶%20Watch%20Demo-red?style=for-the-badge&logo=youtube&logoColor=white)](https://github.com/user-attachments/assets/40d56f0c-0d9d-4fc2-872f-04ca2e411a33)
@@ -248,6 +256,7 @@ Built by **Vidya Sagar Yandamuri**
 If this project helped you or impressed you, drop a ⭐ — it genuinely motivates me to keep building.
 
 [![GitHub](https://img.shields.io/badge/GitHub-yandamurividyasagar--dev-black?style=flat&logo=github)](https://github.com/yandamurividyasagar-dev)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-ai--code--translator-brightgreen?style=flat&logo=render)](https://ai-code-translator-bq9w.onrender.com)
 
 ---
 
