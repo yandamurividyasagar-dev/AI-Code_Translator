@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "https://ai-code-translator-server.onrender.com";
+const API = "https://ai-code-translator-server.onrender.com/api/code";
 
 const getAuthHeader = () => {
   const token = localStorage.getItem("token");
