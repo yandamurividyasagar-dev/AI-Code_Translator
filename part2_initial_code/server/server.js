@@ -11,11 +11,19 @@ import authRoutes from "./src/routes/auth.routes.js";
 
 const app = express();
 
-// Connect DB (THIS WAS MISSING)
+// Connect DB
 connectDB();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  credentials: true,
+}));
+app.options('*', cors());
+
+// Health check - keeps Render server alive
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
+
 app.use(express.json());
 
 // Routes
