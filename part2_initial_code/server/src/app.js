@@ -9,7 +9,15 @@ import {
 const app = express();
 
 // Allow our React frontend to talk to this backend
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
+app.use(cors({
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  credentials: true,           // ← ADD THIS
+}));
+
+app.options('*', cors());      // ← ADD THIS (fixes preflight 502)
+
+// Health check — keeps Render from sleeping
+app.get('/health', (req, res) => res.json({ status: 'ok' })); // ← ADD THIS
 
 // Convert incoming JSON requests to JavaScript objects
 app.use(express.json());
