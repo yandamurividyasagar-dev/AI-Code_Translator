@@ -15,10 +15,22 @@ const app = express();
 connectDB();
 
 // Middlewares
-app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5173",
-  credentials: true,
-}));
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map((s) => s.trim());
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // allow tools like curl/Postman (no origin) and listed origins
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`CORS blocked: ${origin}`));
+    },
+    credentials: true,
+  })
+);
 
 // Health check - keeps Render server alive
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
