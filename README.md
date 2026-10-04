@@ -6,7 +6,7 @@
 
 ## 🚀 Live Demo
 
-**[➜ Try it live → ai-code-translator-bq9w.onrender.com](https://ai-code-translator-bq9w.onrender.com)**
+**[Try it live → ai-code-translator-bq9w.onrender.com](https://ai-code-translator-bq9w.onrender.com)**
 
 > No installation needed. Open the link, sign in with Google, and start translating code instantly.
 
